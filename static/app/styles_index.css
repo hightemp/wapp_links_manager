@@ -1,0 +1,36 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    position: fixed;
+
+    font-family:verdana,helvetica,arial,sans-serif;
+    /* font-size:8px; */
+}
+
+body {
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+.done {
+    color: #aaa;
+}
+
+.input-with-btn {
+    display: grid;
+    grid-template-columns: 1fr 30px;
+}
+
+/* .tree-node {
+    height: 18px;
+} */
+
+table * {
+    font-size: 10px !important;
+}
+
+.datagrid-filter-c input {
+    height: 31px;
+}

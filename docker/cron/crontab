@@ -1,0 +1,1 @@
+10 * * * *   root    /bin/bash /var/www/cron/telegram_check.sh
