@@ -311,6 +311,16 @@ export class Domains {
             onDblClickRow: ((index,row) => {
                 window.open('https://'+row.name);
             }).bind(this),
+
+            rowStyler: function(index,row) {
+                if (!row.count){
+                    return 'font-weight:bold';
+                }
+
+                if (!row.description){
+                    return 'font-style:italic;';
+                }
+            }
         });
     }
 

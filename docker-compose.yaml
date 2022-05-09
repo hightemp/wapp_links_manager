@@ -39,19 +39,3 @@ services:
       - ./docker/php-workspace/logs/log2:/usr/local/var/log
     networks:
       - nw_wapp_links_manager
-
-  cron:
-    restart: always
-    container_name: wapp_links_manager_cron
-    hostname: cron
-    build:
-      context: ./docker/cron
-      dockerfile: ./Dockerfile
-      args:
-        TZ: ${WORKSPACE_TIMEZONE}
-    working_dir: /var/www
-    volumes:
-      - ${WORK_PATH}:/var/www
-      - ./docker/cron/crontab:/etc/crontab
-    networks:
-      - nw_wapp_links_manager

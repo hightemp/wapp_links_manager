@@ -288,6 +288,13 @@ export class Notes {
                     }
                 });
             }).bind(this),
+
+            rowStyler: function(index,row) {
+                if (!row.count){
+                    return 'font-weight:bold';
+                }
+            }
+
         });
     }
 

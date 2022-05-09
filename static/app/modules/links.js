@@ -366,6 +366,14 @@ export class Links {
             columns:[[
                 {field:'created_at',title:'Создано',width:122},
                 {
+                    field:'group_name',title:'Группа',
+                    width:150
+                },
+                {
+                    field:'category_name',title:'Категория',
+                    width:150
+                },
+                {
                     field:'name',title:'Название',
                     width:400
                 },
@@ -406,6 +414,12 @@ export class Links {
                     }
                 });
             }).bind(this),
+
+            rowStyler: function(index,row) {
+                if (!row.category_id || !row.group_id){
+                    return 'background-color:#EE0000;color:#fff;font-weight:bold';
+                }
+            }
         });
 
         this.fnComponent('enableFilter', [

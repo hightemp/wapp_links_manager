@@ -24,6 +24,9 @@ if ($sMethod == 'list_links') {
         $oLink->group_id = $oLink->tcategories->tgroups_id;
         $oLink->category_id = $oLink->tcategories_id;
         $oLink->note_id = $oLink->tnotes_id;
+
+        $oLink->group_name = $oLink->tcategories->tgroups->name;
+        $oLink->category_name = $oLink->tcategories->name;
     }
 
     $aResult['rows'] = array_values((array) $aLinks);

@@ -299,6 +299,9 @@ export class Categories {
                     title:'name',field:'name',width:400,
                     formatter: function(value,row,index) {
                         var s = row.text;
+                        if (!row.count) {
+                            s = `<b>${s}</b>`;
+                        }
                         s += '&nbsp;<span style=\'color:blue\'>(' + row.count + ')</span>';
                         return s;
                     }
@@ -335,6 +338,7 @@ export class Categories {
                     }).bind(this)
                 });
             }).bind(this),
+
         })
     }
 
