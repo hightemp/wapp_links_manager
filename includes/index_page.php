@@ -140,7 +140,7 @@
             <div style="margin-bottom:10px">
                 <label>Категория:</label>
                 <div class="input-with-btn">
-                    <div><input id="links-category_id" name="category_id" required="true" class="easyui-combotree" style="width:100%"></div>
+                    <div><input id="links-category_id" name="category_id" class="easyui-combotreegrid" style="width:100%"></div>
                     <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-remove" id="links-category-clean-btn" style="width:auto"></a>
                 </div>
             </div>

@@ -90,7 +90,7 @@ export class CategoryLinks {
     static fnDialogFormLoad(oRows={}) {
         this.oDialogForm.form('clear');
         this.oDialogForm.form('load', oRows);
-        this.oCategoryTreeList.combotree('setValue', oRows.category_id);
+        this.oCategoryTreeList.combotreegrid('setValue', oRows.category_id);
     }
 
     static fnShowCreateWindow() {
@@ -182,7 +182,7 @@ export class CategoryLinks {
     {
         var iCID = this._oSelectedCategory ? this._oSelectedCategory.id : 0;
 
-        this.oCategoryTreeList.combotree('reload');
+        this.oCategoryTreeList.combotreegrid('reload');
     }
 
     static fnShowMessageCategoryNotSelected()
@@ -206,7 +206,7 @@ export class CategoryLinks {
         }).bind(this))
 
         // this.oEditDialogCategoryCleanBtn.click((() => {
-        //     this.oCategoryTreeList.combotree('clear');
+        //     this.oCategoryTreeList.combotreegrid('clear');
         // }).bind(this))
         // this.oEditDialogSaveBtn.click((() => {
         //     this.fnSave();
@@ -266,14 +266,14 @@ export class CategoryLinks {
 
     static fnInitComponentCategoryTreeList()
     {
-        this.oCategoryTreeList.combotree({
+        this.oCategoryTreeList.combotreegrid({
             url: this.oURLs.list_tree_categories,
             method: 'get',
             labelPosition: 'top',
             width: '100%',
             onLoadSuccess: ((node, data) => {
                 if (this._oSelectedCategory) {
-                    this.oCategoryTreeList.combotree('setValue', this._oSelectedCategory.id);
+                    this.oCategoryTreeList.combotreegrid('setValue', this._oSelectedCategory.id);
                 }
             }).bind(this),
         })
@@ -357,7 +357,7 @@ export class CategoryLinks {
 
     static fnPrepare()
     {
-        this.fnInitComponentCategoryTreeList();
+        // this.fnInitComponentCategoryTreeList();
         this.fnInitComponent();
         this.fnBindEvents();
     }

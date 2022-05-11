@@ -4,15 +4,43 @@
 
 if ($sMethod == 'list_tree_categories') {
     if (isset($aRequest['group_id']) && $aRequest['group_id']>0) {
-        $aCategories = R::findAll(T_CATEGORIES, 'tgroups_id = ? AND tcategories_id IS NULL', [$aRequest['group_id']]);
+        $aCategories = R::findAll(T_CATEGORIES, 'tgroups_id = ? AND tcategories_id IS NULL ORDER BY id DESC', [$aRequest['group_id']]);
     } else {
-        $aCategories = R::findAll(T_CATEGORIES, 'tcategories_id IS NULL');
+        $aCategories = R::findAll(T_CATEGORIES, 'tcategories_id IS NULL ORDER BY id DESC');
     }
     $aResult = [];
 
     fnBuildRecursiveCategoriesTree($aResult, $aCategories);
 
     die(json_encode(array_values($aResult)));
+}
+
+if ($sMethod == 'list_tree_categories_paged') {
+    $sFilterRules = " 1 = 1";
+    if (isset($aRequest['filterRules'])) {
+        $aRequest['filterRules'] = json_decode($aRequest['filterRules']);
+        $sFilterRules = fnGenerateFilterRules($aRequest['filterRules']);
+    }
+
+    $sOffset = fnPagination($aRequest['page'], $aRequest['rows']);
+    $aResult = [];
+
+    if (isset($aRequest['group_id']) && $aRequest['group_id']>0) {
+        $aCategories = R::findAll(T_CATEGORIES, "{$sFilterRules} AND tgroups_id = ? AND tcategories_id IS NULL ORDER BY id DESC {$sOffset}", [$aRequest['group_id']]);
+        $aResult['total'] = R::count(T_CATEGORIES, "{$sFilterRules} AND tgroups_id = ? AND tcategories_id IS NULL", [$aRequest['group_id']]);
+    } else {
+        $aCategories = R::findAll(T_CATEGORIES, "{$sFilterRules} AND tcategories_id IS NULL ORDER BY id DESC {$sOffset}", []);
+        $aResult['total'] = R::count(T_CATEGORIES, "{$sFilterRules} AND tcategories_id IS NULL");
+    }
+
+    // // if (isset($aRequest['group_id']) && $aRequest['group_id']>0) {
+    // //     $aCategories = R::findAll(T_CATEGORIES, 'tgroups_id = ? AND tcategories_id IS NULL ORDER BY id DESC', [$aRequest['group_id']]);
+    // // } else {
+    // //     $aCategories = R::findAll(T_CATEGORIES, 'tcategories_id IS NULL ORDER BY id DESC');
+    // // }
+    fnBuildRecursiveCategoriesTree($aResult['rows'], $aCategories);
+
+    die(json_encode($aResult));
 }
 
 if ($sMethod == 'list_categories') {

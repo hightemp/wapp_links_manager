@@ -27,11 +27,14 @@ if ($sMethod == 'list_links') {
 
         $oLink->group_name = $oLink->tcategories->tgroups->name;
         $oLink->category_name = $oLink->tcategories->name;
+
+        $oLink->name = fnConvertToUTF8($oLink->name);
+        $oLink->description = fnConvertToUTF8($oLink->description);
     }
 
     $aResult['rows'] = array_values((array) $aLinks);
-    
-    die(json_encode($aResult));
+
+    die(json_encode($aResult, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
 }
 
 if ($sMethod == 'delete_link') {

@@ -192,6 +192,8 @@ export class Categories {
 
         $(document).on(this.oEvents.groups_select, ((oEvent, oNode) => {
             this._oSelectedGroup = oNode;
+            this._oSelected = null;
+            this.oCategoryTreeList.combotree('setValue', null);
             this.fnInitComponent();
         }).bind(this))
 

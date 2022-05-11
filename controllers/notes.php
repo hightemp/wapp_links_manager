@@ -32,7 +32,7 @@ if ($sMethod == 'list_all_notes') {
 if ($sMethod == 'delete_note') {
     $oNote = R::findOne(T_NOTES, "id = ?", [$aRequest['id']]);
 
-    fnBuildRecursiveLinksTreeDelete($oNote);
+    R::trashAll([$oNote]);
 
     die(json_encode([]));
 }

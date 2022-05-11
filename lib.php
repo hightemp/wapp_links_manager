@@ -1,5 +1,46 @@
 <?php
 
+function convert_from_latin1_to_utf8_recursively($dat)
+{
+    if (is_string($dat)) {
+        return utf8_encode($dat);
+    } elseif (is_array($dat)) {
+        $ret = [];
+        foreach ($dat as $i => $d) $ret[ $i ] = convert_from_latin1_to_utf8_recursively($d);
+
+        return $ret;
+    } elseif (is_object($dat)) {
+        foreach ($dat as $i => $d) $dat->$i = convert_from_latin1_to_utf8_recursively($d);
+
+        return $dat;
+    } else {
+        return $dat;
+    }
+}
+
+function fnConvertToUTF8($sText) 
+{
+    json_encode($sText);
+    if (json_last_error()) {
+        $aEncondings = ['koi8-r', 'WIN-1251'];
+        foreach ($aEncondings as $sE) {
+            try {
+                $sE = mb_detect_encoding($sText) ?: $sE;
+                $sText = mb_convert_encoding($sText, 'UTF-8', $sE); 
+            
+                json_encode($sText);
+                if (json_last_error()) {
+                    continue;
+                }
+            } catch (\Exception $oE) {
+
+            }
+        }
+        return "[ERROR]";
+    }
+    return $sText;
+}
+
 function fnGetTitleFromURL($sLink) 
 {
     $ch = curl_init();
@@ -20,11 +61,13 @@ function fnGetTitleFromURL($sLink)
                     'Accept-Language: en-US,en;q=0.5',
                     'Accept-Encoding: gzip, deflate',
                     'Connection: keep-alive',
+                    'Content-Type: text/html; charset=utf-8',
                     'Upgrade-Insecure-Requests: 1',
             ),
         ]
     );
     $sHTML = curl_exec($ch);
+    $sHTML = fnConvertToUTF8($sHTML);
     curl_close($ch);
 
     if (curl_errno($ch)) {

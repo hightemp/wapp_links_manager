@@ -310,8 +310,24 @@ export class Links {
             labelPosition: 'top',
             width: '100%',
 
-            valueField: 'id',
-            textField: 'name',
+            rownumbers: true,
+            pagination: true,
+            border: false,
+
+            remoteFilter: true,
+
+            nowrap: false,
+            editable: true,
+
+            pageSize: 6,
+            pageList: [6, 10, 24, 25, 30, 40, 50, 60, 70, 80, 90, 100],
+
+            idField: 'id',
+            treeField:'name',
+
+            columns:[[
+                {field:'name',title:'name',width:420},
+            ]],
 
             onLoadSuccess: ((node, data) => {
                 if (this._oSelectedRow) {
@@ -319,6 +335,8 @@ export class Links {
                 }
             }).bind(this),
         })
+
+        // this.oCategoryTreeList.combotree('enableFilter', []);
     }
 
     static fnInitComponentNotesList()

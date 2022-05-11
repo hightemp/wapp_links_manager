@@ -34,3 +34,7 @@ table * {
 .datagrid-filter-c input {
     height: 31px;
 }
+
+.datagrid-row-selected {
+    box-shadow: inset 0px 0px 0px 5px rgba(0,0,0,0.2);
+}
