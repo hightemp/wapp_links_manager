@@ -9,13 +9,16 @@ $sURL = "https://api.telegram.org/bot{$KEY}/getUpdates?offset=$iOffset";
 
 // this would bring the latest message from telegram group
 $sContent = file_get_contents($sURL);
+
+error_log($sContent, 3, "./logs/telegram_messages.log");
+
 $aResponse = json_decode($sContent, true);
 $aMSG_List = $aResponse['result'];
 
 foreach ($aMSG_List as $aMSG) {
 
     $iOffset = $aMSG['update_id']+1; 
-    $sMSG = $aMSG['message']['text'];
+    $sMSG = $aMSG['message']['text'] ?: $aMSG['message']['caption'];
     $iChatID = $aMSG['message']['chat']['id'];
 
     $bIsBot = $aMSG['message']['form']['is_bot'];
@@ -24,11 +27,52 @@ foreach ($aMSG_List as $aMSG) {
 
     $sResponseURL = "https://api.telegram.org/bot{$KEY}/sendMessage?chat_id={$iChatID}&text=";
 
-    if (!$sMSG) {
-        $sMSG = json_encode($aMSG);
+    $sTestingMSG = trim($sMSG);
+
+    if (!$sTestingMSG) {
+        // $sTestingMSG = json_encode($aMSG);
+        continue;
     }
 
-    if (preg_match_all('@(https?://[^\s]+)@', $sMSG, $aM)) {
+    if ($aMSG['message']['photo']) {
+        foreach ($aMSG['message']['photo'] as $aPhoto) {
+            $iFileID = $aPhoto["file_id"];
+            $sPhotoInfoURL = "https://api.telegram.org/bot{$KEY}/getFile?file_id={$iFileID}";
+
+            $sJSON = file_get_contents($sPhotoInfoURL);
+            $aFileInfo = json_decode($sJSON, true);
+            $sFilePath = $aFileInfo["result"]["file_path"];
+
+            $sFileURL = "https://api.telegram.org/file/bot{$KEY}/{$sFilePath}";
+
+            $sData = file_get_contents($sFileURL);
+
+            preg_match("\.(\w+)$", $sFilePath, $aMExt);
+
+            $oFile = R::dispense(T_FILES);
+
+            $oFile->created_at = date("Y-m-d H:i:s");
+            $oFile->updated_at = date("Y-m-d H:i:s");
+            $oFile->timestamp = time();
+
+            $sFilePath = $sFUI."/".$oFile->timestamp.".".$aMExt[1];
+            file_put_contents($sFilePath, $sData);
+
+            $oFile->name = $iFileID;
+
+            $oFile->type = $aMExt[1];
+            $oFile->filename = $oFile->timestamp.".".@$aM[1];
+
+            $sFilePath = $sFIP."/".$oFile->filename;
+            $sRelFilePath = $sIP."/".$oFile->filename;
+            // var_export([$_FILES['file']['tmp_name'], $sFilePath]);
+            // copy($_FILES['file']['tmp_name'], $sFilePath);
+
+            R::store($oFile);
+        }
+    }
+
+    if (preg_match_all('@(https?://[^\s]+)@', $sTestingMSG, $aM)) {
         foreach ($aM[1] as $sLink) {
             $sTitle = fnGetTitleFromURL($sLink);
 

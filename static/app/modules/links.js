@@ -352,8 +352,21 @@ export class Links {
         })
     }
 
+    static editIndex = undefined;
+    static endEditing(){
+        if (this.editIndex == undefined){return true}
+        if (this.fnComponent('validateRow', this.editIndex)){
+            this.fnComponent('endEdit', this.editIndex);
+            this.editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     static fnInitComponent()
     {
+
         var iCID = this._oSelectedCategory ? this._oSelectedCategory.id : 0;
 
         this.fnComponent({
@@ -370,6 +383,7 @@ export class Links {
             pagination: true,
             border: false,
 
+            clientPaging: false,
             remoteFilter: true,
 
             nowrap: false,
@@ -384,12 +398,46 @@ export class Links {
             columns:[[
                 {field:'created_at',title:'Создано',width:122},
                 {
-                    field:'group_name',title:'Группа',
-                    width:150
+                    field:'group_id',title:'Группа',
+                    width:250,
+                    formatter: function(value,row,index){
+                        return row.group_name;
+                    }
                 },
                 {
-                    field:'category_name',title:'Категория',
-                    width:150
+                    field:'category_id',title:'Категория',
+                    width:250,
+                    editor:{
+                        type:'combotree',
+                        options: {
+                            url: this.oURLs.list_tree_categories(0),
+                            method: 'get',
+                            labelPosition: 'top',
+                            width: '100%',
+                
+                            rownumbers: true,
+                            pagination: true,
+                            border: false,
+                
+                            remoteFilter: true,
+                
+                            nowrap: false,
+                            editable: true,
+                
+                            pageSize: 6,
+                            pageList: [6, 10, 24, 25, 30, 40, 50, 60, 70, 80, 90, 100],
+                
+                            idField: 'id',
+                            treeField:'name',
+                
+                            columns:[[
+                                {field:'name',title:'name',width:420},
+                            ]],
+                        }
+                    },
+                    formatter: function(value,row,index){
+                        return row.category_name;
+                    }
                 },
                 {
                     field:'name',title:'Название',
@@ -401,13 +449,18 @@ export class Links {
                 },
             ]],
 
+            onEndEdit: ((iIndex, oRow) => {
+                $.post(this.oURLs.update(oRow.id), { ...oRow })
+                    .done(() => { this.fnReload(); })
+            }).bind(this), 
+
             onSelect: ((iIndex, oNode) => {
                 this._oSelectedRow = this.fnGetSelected();
-            }),
+            }).bind(this),
 
             onDblClickRow: ((iIndex, oNode) => {
                 window.open(oNode.url);
-            }),
+            }).bind(this),
 
             onRowContextMenu: ((e, index, node) => {
                 e.preventDefault();
@@ -440,9 +493,8 @@ export class Links {
             }
         });
 
-        this.fnComponent('enableFilter', [
-
-        ]);
+        this.fnComponent('enableFilter', []);
+        this.fnComponent('enableCellEditing');
     }
 
     static fnPrepare()

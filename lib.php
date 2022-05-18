@@ -115,6 +115,7 @@ function fnBuildRecursiveCategoriesTree(&$aResult, $aCategories)
             'description' => $oCategory->description,
             'category_id' => $oCategory->tcategories_id,
             'group_id' => $oCategory->tgroups_id,
+            'group_name' => $oCategory->tgroups->name,
             'children' => $aTreeChildren,
             'count' => $oCategory->countOwn(T_LINKS)
         ];

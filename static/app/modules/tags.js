@@ -39,7 +39,7 @@ export class Tags {
         return $('#tags-dlg-fm');
     }
     static get oComponent() {
-        return $("#tags-list");
+        return $("#tags-datagrid");
     }
     static get oComponentItemsList() {
         return $("#tags-items-list");
@@ -87,11 +87,11 @@ export class Tags {
 
 
     static get fnComponent() {
-        return this.oComponent.datalist.bind(this.oComponent);
+        return this.oComponent.datagrid.bind(this.oComponent);
     }
 
     static get fnComponentItemsList() {
-        return this.oComponent.datalist.bind(this.oComponentItemsList);
+        return this.oComponent.datagrid.bind(this.oComponentItemsList);
     }
 
     static fnShowDialog(sTitle) {
@@ -266,6 +266,29 @@ export class Tags {
 
         this.fnComponent({
             url: this.oURLs.list,
+
+            singleSelect: true,
+
+            fit: true,
+
+            method: 'get',
+
+            width: '100%',
+            height: "100%",
+            rownumbers: true,
+            pagination: true,
+
+            clientPaging: false,
+            remoteFilter: true,
+
+            nowrap: false,
+
+            pageSize: 24,
+            pageList: [24, 25, 30, 40, 50, 60, 70, 80, 90, 100],
+
+            idField: 'id',
+
+            toolbar: '#tags-tt',
 
             onClickRow: ((index, oRow) => {
                 this.fnFireEvent_ItemClick(oRow);

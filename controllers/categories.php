@@ -12,6 +12,29 @@ if ($sMethod == 'list_tree_categories') {
 
     fnBuildRecursiveCategoriesTree($aResult, $aCategories);
 
+    if (!isset($aRequest['group_id']) || $aRequest['group_id']==0) {
+        $aGrouped = [];
+        $aGroups = [];
+
+        foreach ($aResult as $aCategory) {
+            $aGrouped[$aCategory['group_id']][] = $aCategory;
+        }
+
+        foreach ($aGrouped as $aList) {
+            foreach ($aList as $aCategory) {
+                $aGroups[] = [
+                    "id" => 0,
+                    "name" => $aCategory['group_name'],
+                    "text" => $aCategory['group_name'],
+                    "children" => $aList,
+                ];
+                break;
+            }
+        }
+
+        $aResult = $aGroups;
+    }
+
     die(json_encode(array_values($aResult)));
 }
 
@@ -62,6 +85,10 @@ if ($sMethod == 'delete_category') {
 }
 
 if ($sMethod == 'update_category') {
+    if (!$aRequest['id']) {
+        return;
+    }
+
     $oCategory = R::findOne(T_CATEGORIES, "id = ?", [$aRequest['id']]);
 
     $oCategory->name = $aRequest['name'];

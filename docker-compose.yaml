@@ -37,5 +37,6 @@ services:
       - ${WORK_PATH}:/var/www
       - ./docker/php-workspace/logs/log1:/var/log/
       - ./docker/php-workspace/logs/log2:/usr/local/var/log
+      - ./docker/php-workspace/php-ini/7/php/php.ini:/usr/local/etc/php/php.ini
     networks:
       - nw_wapp_links_manager

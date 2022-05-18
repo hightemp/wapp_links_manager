@@ -33,6 +33,38 @@ if ($argv[1] == "test_get_title") {
     die("\n\n\n");
 }
 
+if ($argv[1] == "telegram_get_updates") {
+    $KEY = Config::$aOptions["telegram"]["API"];
+    $iOffset = file_get_contents("/tmp/offset.txt");
+    $sURL = "https://api.telegram.org/bot{$KEY}/getUpdates";
+
+    echo $sURL;
+    echo "\n\n";
+
+    $sContent = file_get_contents($sURL);
+    $aResponse = json_decode($sContent, true);
+    
+    echo json_encode($aResponse, JSON_PRETTY_PRINT);
+
+    die();
+}
+
+if ($argv[1] == "telegram_get_photo") {
+    $KEY = Config::$aOptions["telegram"]["API"];
+    $iOffset = file_get_contents("/tmp/offset.txt");
+    $sURL = "https://api.telegram.org/bot{$KEY}/getFile?file_id=AgACAgIAAxkBAAPFYn90dz0mHnFfj8ZxSYnMZuYe95YAAlnAMRuB49hLF9JfclykodIBAAMCAANzAAMkBA";
+
+    echo $sURL;
+    echo "\n\n";
+
+    $sContent = file_get_contents($sURL);
+    $aResponse = json_decode($sContent, true);
+    
+    echo json_encode($aResponse, JSON_PRETTY_PRINT);
+
+    die();
+}
+
 if ($argv[1] == "create_demo_data") {
     // R::nuke();
     // exec('rm -f ./sql/*.sql');
@@ -227,22 +259,21 @@ if ($argv[1] == "create_scheme") {
     die(json_encode([]));
 }
 
-function fnBuildRecursiveCategoriesTree(&$aResult, $aCategories) 
-{
-    $aResult = [];
+// function fnBuildRecursiveCategoriesTree(&$aResult, $aCategories) 
+// {
+//     $aResult = [];
 
-    foreach ($aCategories as $oCategory) {
-        $aTreeChildren = [];
+//     foreach ($aCategories as $oCategory) {
+//         $aTreeChildren = [];
 
-        $aChildren = R::children($oCategory, " id != {$oCategory->id}");
-        fnBuildRecursiveCategoriesTree($aTreeChildren, $aChildren);
+//         $aChildren = R::children($oCategory, " id != {$oCategory->id}");
+//         fnBuildRecursiveCategoriesTree($aTreeChildren, $aChildren);
 
-        $aResult[] = [
-            'id' => $oCategory->id,
-            'text' => $oCategory->name,
-            'children' => $aTreeChildren,
-            'notes_count' => $oCategory->countOwn(T_TASKS)
-        ];
-    }
-}
-
+//         $aResult[] = [
+//             'id' => $oCategory->id,
+//             'text' => $oCategory->name,
+//             'children' => $aTreeChildren,
+//             'notes_count' => $oCategory->countOwn(T_TASKS)
+//         ];
+//     }
+// }

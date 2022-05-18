@@ -27,6 +27,7 @@ $sLayout = isset($_GET["layout"]) ? $_GET["layout"] : "index";
     <script type="text/javascript" src="<?php echo $sBA ?>/hotkeys.min.js"></script>
 
     <script type="text/javascript" src="<?php echo $sBA ?>/datagrid-filter.js"></script>
+    <script type="text/javascript" src="<?php echo $sBA ?>/datagrid-cellediting.js"></script>
 
     <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">

@@ -257,6 +257,8 @@ export class Domains {
 
             nowrap: false,
 
+            clientPaging: false,
+
             pageSize: 24,
             pageList: [24, 25, 30, 40, 50, 60, 70, 80, 90, 100],
 
@@ -322,6 +324,8 @@ export class Domains {
                 }
             }
         });
+
+        this.fnComponent('enableFilter', []);
     }
 
     static fnPrepare()

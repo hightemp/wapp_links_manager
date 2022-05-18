@@ -1,76 +1,76 @@
 import { tpl, fnAlertMessage } from "./lib.js"
 
-export class Notes {
+export class Files {
     static sURL = ``
 
     static oURLs = {
-        create: 'ajax.php?method=create_note',
-        update: tpl`ajax.php?method=update_note&id=${0}`,
-        delete: 'ajax.php?method=delete_note',
-        list: `ajax.php?method=list_notes`,
+        create: 'ajax.php?method=create_file',
+        update: tpl`ajax.php?method=update_file&id=${0}`,
+        delete: 'ajax.php?method=delete_file',
+        list: `ajax.php?method=list_files_paged`,
     }
     static oWindowTitles = {
-        create: 'Новая заметка',
-        update: 'Редактировать заметку'
+        create: 'Новая',
+        update: 'Редактировать'
     }
     static oEvents = {
-        notes_save: "notes:save",
-        notes_item_click: "notes:item_click",
+        files_save: "files:save",
+        files_item_click: "files:item_click",
     }
 
     static _oSelectedCategory = null;
     static _oSelectedRow = null;
 
     static get sTodoListToolbar() {
-        return `#notes-list-tb`;
+        return `#files-list-tb`;
     }
 
     static get oDialog() {
-        return $('#notes-dlg');
+        return $('#files-dlg');
     }
     static get oDialogForm() {
-        return $('#notes-dlg-fm');
+        return $('#files-dlg-fm');
     }
 
     static get oComponent() {
-        return $("#notes-datagrid");
+        return $("#files-datagrid");
     }
     static get oContextMenu() {
-        return $("#notes-mm");
+        return $("#files-mm");
     }
 
     static get oCategoryTreeList() {
-        return $("#notes-category_id");
+        return $("#files-category_id");
     }
 
     static get oEditDialogCategoryCleanBtn() {
-        return $('#notes-category-clean-btn');
+        return $('#files-category-clean-btn');
     }
     static get oEditDialogParentTaskCleanBtn() {
-        return $('#notes-note-clean-btn');
+        return $('#files-file-clean-btn');
     }
     static get oEditDialogSaveBtn() {
-        return $('#notes-dlg-save-btn');
+        return $('#files-dlg-save-btn');
     }
     static get oEditDialogCancelBtn() {
-        return $('#notes-dlg-cancel-btn');
+        return $('#files-dlg-cancel-btn');
     }
 
 
     static get oPanelUnselectButton() {
-        return $('#notes-unselect-btn');
+        return $('#files-unselect-btn');
     }
     static get oPanelAddButton() {
-        return $('#notes-add-btn');
+        return $('#files-add-btn');
     }
     static get oPanelEditButton() {
-        return $('#notes-edit-btn');
+        return $('#files-edit-btn');
     }
     static get oPanelRemoveButton() {
-        return $('#notes-remove-btn');
+        return $('#files-remove-btn');
     }
     static get oPanelReloadButton() {
-        return $('#notes-reload-btn');
+        return $('#files-reload-btn');
     }
 
     static get fnComponent() {
@@ -216,11 +216,11 @@ export class Notes {
     }
 
     static fnFireEvent_Save() {
-        $(document).trigger(this.oEvents.notes_save);
+        $(document).trigger(this.oEvents.files_save);
     }
 
     static fnFireEvent_ItemClick(oRow) {
-        $(document).trigger(this.oEvents.notes_item_click, [ oRow ]);
+        $(document).trigger(this.oEvents.files_item_click, [ oRow ]);
     }
 
     static fnInitComponent()
@@ -240,19 +240,27 @@ export class Notes {
             rownumbers: true,
             pagination: true,
 
-            nowrap: false,
-
             clientPaging: false,
+            remoteFilter: true,
+
+            nowrap: false,
 
             pageSize: 24,
             pageList: [24, 25, 30, 40, 50, 60, 70, 80, 90, 100],
 
             idField: 'id',
 
-            toolbar: '#notes-tt',
+            toolbar: '#files-tt',
 
             columns:[[
                 {field:'created_at',title:'Создано',width:122},
+                {
+                    field:'filename',title:'Изображение',
+                    width: 200,
+                    formatter: function(value,row,index){
+                        return `<img src="/uploads/images/${row.filename}" style="object-fit:contain; width:200px"/>`
+                    }
+                },
                 {
                     field:'count',title:'Кол.',
                     width: 40

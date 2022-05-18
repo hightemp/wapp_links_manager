@@ -292,6 +292,8 @@ export class Categories {
 
             nowrap: false,
 
+            clientPaging: false,
+            
             toolbar: '#categories-tt',
 
             idField:'id',
@@ -342,6 +344,8 @@ export class Categories {
             }).bind(this),
 
         })
+
+        this.fnComponent('enableFilter', []);
     }
 
     static fnPrepare()

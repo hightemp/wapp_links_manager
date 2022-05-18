@@ -25,10 +25,5 @@ $sBase = Config::$aOptions["base"];
 $sBA = $sBase."/static/app";
 $sB = $sBase."/static/app/jquery-easyui-1.10.2";
 
-$sNP = "/data/notes";
-$sFNP = __DIR__."/data/notes";
-$sTP = "/data/tables";
-$sFTP = __DIR__."/data/tables";
-$sFFP = __DIR__."/data/resources/files";
-$sIP = "/data/resources/images";
-$sFIP = __DIR__."/data/resources/images";
+$sIP = "/uploads/images";
+$sFIP = __DIR__."/uploads/images";

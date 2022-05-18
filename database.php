@@ -14,6 +14,7 @@ define('T_CATEGORIES', 'tcategories');
 define('T_LINKS', 'tlinks');
 define('T_NOTES', 'tnotes');
 define('T_DOMAINS', 'tdomains');
+define('T_FILES', 'tfiles');
 
 define('T_TAGS', 'ttags');
 define('T_TAGS_TO_OBJECTS', 'ttagstoobjectss');

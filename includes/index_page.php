@@ -73,6 +73,26 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="notes-reload-btn"></a>
         </div>
     </div>
+    <div title="Файлы" style="padding:0px;display:none;">
+        <table id="files-datagrid" class="easyui-datagrid" data-options="fit:true"></table>
+        <div id="files-tt">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true" id="files-unselect-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="files-add-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="files-edit-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="files-remove-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="files-reload-btn"></a>
+        </div>
+    </div>
+    <div title="Тэги" style="padding:0px;display:none;">
+        <table id="tags-datagrid" class="easyui-datagrid" data-options="fit:true"></table>
+        <div id="tags-tt">
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-tip',plain:true" id="tags-unselect-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="tags-add-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="tags-edit-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="tags-remove-btn"></a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="tags-reload-btn"></a>
+        </div>
+    </div>
 </div>
 
 
@@ -206,6 +226,33 @@
         <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" id="domains-dlg-cancel-btn" style="width:auto">Отмена</a>
     </div>
 
+    <!-- Файлы -->
+    <div id="files-dlg" class="easyui-dialog" style="width:500px" data-options="closed:true,modal:true,border:'thin',buttons:'#files-dlg-buttons'">
+        <form id="files-dlg-fm" method="post" novalidate style="margin:0;padding:5px">
+            <div style="margin-bottom:10px">
+                <label>Заголовок:</label>
+                <input name="name" class="easyui-textbox" required="true" style="width:100%">
+            </div>
+            <div style="margin-bottom:10px">
+                <label>Описание:</label>
+                <input name="description" class="easyui-textbox" style="width:100%;height:200px" multiline="true">
+            </div>
+            <div style="margin-bottom:10px">
+                <label>Файл:</label>
+                <input name="file" class="easyui-filebox" style="width:100%">
+            </div>
+            <div style="margin-bottom:10px">
+                <label>Путь:</label>
+                <input name="filename" class="easyui-textbox" style="width:100%" readonly="true">
+            </div>
+        </form>
+    </div>
+    <div id="files-dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton c6" iconCls="icon-ok" id="files-dlg-save-btn" style="width:auto">Сохранить</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" id="files-dlg-cancel-btn" style="width:auto">Отмена</a>
+    </div>
+
+
     <div id="groups-mm" class="easyui-menu" style="width:auto;">
         <div data-options="id:'edit'">Радактировать</div>
         <div data-options="id:'delete'">Удалить</div>
@@ -233,7 +280,16 @@
         <div data-options="id:'edit'">Радактировать</div>
         <div data-options="id:'delete'">Удалить</div>
     </div>
-
+    <div id="files-mm" class="easyui-menu" style="width:auto;">
+        <div data-options="id:'add'">Добавить</div>
+        <div data-options="id:'edit'">Радактировать</div>
+        <div data-options="id:'delete'">Удалить</div>
+    </div>
+    <div id="tags-mm" class="easyui-menu" style="width:auto;">
+        <div data-options="id:'add'">Добавить</div>
+        <div data-options="id:'edit'">Радактировать</div>
+        <div data-options="id:'delete'">Удалить</div>
+    </div>
 </div>
 
 <script type="module">
@@ -256,6 +312,7 @@ $(document).ready(() => {
     m.Domains.fnPrepare();
     m.Notes.fnPrepare();
     m.CategoryLinks.fnPrepare();
+    m.Files.fnPrepare();
 
     m.NotificationManager.fnPrepare();
 })

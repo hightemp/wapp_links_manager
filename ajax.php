@@ -15,6 +15,7 @@ include_once("./controllers/domains.php");
 include_once("./controllers/notes.php");
 include_once("./controllers/tags.php");
 include_once("./controllers/telegram.php");
+include_once("./controllers/files.php");
 
 header("HTTP/1.1 404 Not Found"); 
 die();
